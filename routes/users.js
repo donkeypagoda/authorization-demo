@@ -17,7 +17,7 @@ router.post('/', (req, res, next) => {
     .then((row) => {
       console.log(row);
       if (row) {
-        throw new Error('User already exists');
+        throw boom.create(404, 'User already exists');
       }
 
       return bcrypt.hash(password, 12)
@@ -35,7 +35,8 @@ router.post('/', (req, res, next) => {
 
       res.cookie('token', token, {
         httpOnly: true,
-        expires: new Date(Date.now() + 1000 * 60 * 60 * 30)
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 30),
+        secure: router.get('env') === 'production'
       });
 
       delete newUser.hashed_password;

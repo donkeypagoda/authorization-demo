@@ -28,7 +28,8 @@ router.post('/', (req, res, next) => {
       const claim = { userId: user.id };
       const token = jwt.sign(claim, process.env.JWT_KEY, {
         httpOnly: true,
-        expires: new Date(Date.now() + 1000 * 60 * 60 * 30)
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 30),
+        secure: router.get('env') === 'production'
       });
 
       delete user.hashed_password;
