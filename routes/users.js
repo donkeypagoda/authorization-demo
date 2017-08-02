@@ -8,14 +8,12 @@ const knex = require('../knex');
 const router = require('express').Router();
 
 router.post('/', (req, res, next) => {
-  console.log('here');
   const { username, password } = req.body;
 
   knex('users')
     .where('username', username)
     .first()
     .then((row) => {
-      console.log(row);
       if (row) {
         throw boom.create(404, 'User already exists');
       }
@@ -23,7 +21,6 @@ router.post('/', (req, res, next) => {
       return bcrypt.hash(password, 12)
     })
     .then((hashed_password) => {
-      console.log(hashed_password);
       return knex('users').insert({ username, hashed_password }).returning('*')
     })
     .then((user) => {
@@ -41,13 +38,16 @@ router.post('/', (req, res, next) => {
 
       delete newUser.hashed_password;
 
-      console.log(newUser);
-
       res.send(camelizeKeys(newUser));
     })
     .catch((err) => {
       next(err);
     });
+});
+
+router.delete('/token', (req, res, next) => {
+  res.clearCookie('token');
+  res.end();
 });
 
 module.exports = router;

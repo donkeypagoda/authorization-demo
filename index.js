@@ -7,13 +7,17 @@ const morgan = require('morgan');
 
 const app = express();
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
 
 app.use('/api/users', require('./routes/users'));
 app.use('/api/token', require('./routes/token'));
-// app.use('/api/credit_cards', require('./routes/creditCards'));
+app.use('/api/credit_cards', require('./routes/creditCards'));
 
 app.use((err, _req, res, _next) => {
   if (err.output && err.output.statusCode) {
