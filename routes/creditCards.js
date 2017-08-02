@@ -32,9 +32,7 @@ router.post('/', (req, res, next) => {
     })
 });
 
-router.delete('/', (req, res, next) => {
-  const { creditCardId } = req.body;
-
+router.delete('/:creditCardId', (req, res, next) => {
   knex('credit_cards')
     .del()
     .where('id', creditCardId)
@@ -43,6 +41,9 @@ router.delete('/', (req, res, next) => {
       const creditCard = data[0];
 
       res.send(camelizeKeys(creditCard));
+    })
+    .catch((err) => {
+      next(err);
     });
 });
 
