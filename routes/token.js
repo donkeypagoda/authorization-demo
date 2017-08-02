@@ -8,7 +8,7 @@ const humps = require('humps');
 const knex = require('../knex');
 const router = require('express').Router();
 
-router.post('/', (req, res, next) => {
+router.post('/', (req, res, nkext) => {
   const { username, password } = req.body;
   let user;
 
