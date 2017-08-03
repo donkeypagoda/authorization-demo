@@ -20,9 +20,9 @@ const authorize = function(req, res, next) {
   })
 }
 
-router.get('/:userId', authorize, (req, res, next) => {
+router.get('/', authorize, (req, res, next) => {
   knex('credit_cards')
-    .where('user_id', req.params.userId)
+    .where('user_id', req.claim.userId)
     .then((creditCards) => {
       res.send(creditCards);
     })
@@ -32,7 +32,8 @@ router.get('/:userId', authorize, (req, res, next) => {
 });
 
 router.post('/', authorize, (req, res, next) => {
-  const { credit_card_number, type, user_id } = decamelizeKeys(req.body);
+  const { credit_card_number, type, } = decamelizeKeys(req.body);
+  const user_id = req.claim.userId;
 
   knex('credit_cards')
     .insert({ credit_card_number, type, user_id })
@@ -48,6 +49,7 @@ router.delete('/:creditCardId', authorize, (req, res, next) => {
   knex('credit_cards')
     .del()
     .where('id', req.params.creditCardId)
+    .andWhere('user_id', req.claim.userId)
     .returning('*')
     .then((data) => {
       const creditCard = data[0];
