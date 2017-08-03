@@ -10,7 +10,7 @@ const router = require('express').Router();
 
 
 const authorize = function(req, res, next) {
-  jwt.verify(req.cookies.token, process.env.JWT_KEY, (err, paylod) => {
+  jwt.verify(req.cookies.token, process.env.JWT_KEY, (err, payload) => {
     if (err){
       return next(boom.create(401, "Unauthorized"));
     }
@@ -21,6 +21,7 @@ const authorize = function(req, res, next) {
 }
 
 router.get('/', authorize, (req, res, next) => {
+  console.log("hello");
   knex('credit_cards')
     .where('user_id', req.claim.userId)
     .then((creditCards) => {
