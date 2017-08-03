@@ -10,6 +10,8 @@ npm install
 Create a database:
 ```
 createdb authorization_demo_dev
+npm run knex migrate:latest
+npm run knex seed:run
 ```
 
 Create a JWT_KEY:
