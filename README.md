@@ -17,7 +17,6 @@ npm run knex seed:run
 Create a JWT_KEY:
 ```
 bash -c 'echo "JWT_KEY="$(openssl rand -base64 65)' > .env
-echo '.env' > .gitignore
 ```
 
 ## Problem
