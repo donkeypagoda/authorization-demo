@@ -8,7 +8,19 @@ const humps = require('humps');
 const knex = require('../knex');
 const router = require('express').Router();
 
-router.get('/:userId', (req, res, next) => {
+
+const authorize = function(req, res, next) {
+  jwt.verify(req.cookies.token, process.env.JWT_KEY, (err, paylod) => {
+    if (err){
+      return next(boom.create(401, "Unauthorized"));
+    }
+    req.claim = payload;
+
+    next();
+  })
+}
+
+router.get('/:userId', authorize, (req, res, next) => {
   knex('credit_cards')
     .where('user_id', req.params.userId)
     .then((creditCards) => {
@@ -19,7 +31,7 @@ router.get('/:userId', (req, res, next) => {
     });
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', authorize, (req, res, next) => {
   const { credit_card_number, type, user_id } = decamelizeKeys(req.body);
 
   knex('credit_cards')
@@ -32,7 +44,7 @@ router.post('/', (req, res, next) => {
     })
 });
 
-router.delete('/:creditCardId', (req, res, next) => {
+router.delete('/:creditCardId', authorize, (req, res, next) => {
   knex('credit_cards')
     .del()
     .where('id', req.params.creditCardId)
