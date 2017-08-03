@@ -4,6 +4,7 @@
 Clone this repo:
 ```
 git clone https://github.com/jamiesonbates/authorization-demo.git
+npm install
 ```
 
 Create a database:
