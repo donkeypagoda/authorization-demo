@@ -35,7 +35,7 @@ router.post('/', (req, res, next) => {
 router.delete('/:creditCardId', (req, res, next) => {
   knex('credit_cards')
     .del()
-    .where('id', creditCardId)
+    .where('id', req.params.creditCardId)
     .returning('*')
     .then((data) => {
       const creditCard = data[0];
