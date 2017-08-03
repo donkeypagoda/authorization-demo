@@ -19,6 +19,11 @@ Create a JWT_KEY:
 bash -c 'echo "JWT_KEY="$(openssl rand -base64 65)' > .env
 ```
 
+Don't forget to start your server:
+```
+npm start
+```
+
 ## Problem
 You have inherited a backend application that exposes credit cards to the world. Anyone can access a persons credit cards with the right information. your job is to secure these routes by building in an authorization step.
 
