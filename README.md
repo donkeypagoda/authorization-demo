@@ -63,3 +63,13 @@ http POST localhost:8000/api/users username="INSERT NAME HERE" password="GIVE PA
 The response should look something like this: 
 ![](https://students-gschool-production.s3.amazonaws.com/uploads/asset/file/632/1._fish__-Users-jamiesonbates-Projects-g56-testing-authorization-demo__fish__iTerm2__Today_at_8.39.05_AM.png)
 
+You can save the token and attach it to requests to "authorize" your request with httpie. 
+**NOTE:** this is how it has to be done with HTTPie only. This is because HTTP sends each request in isolation and doesn't have access to information that would be stored by the browser.
+
+This is what sending a request with a token, in a Cookie, will look like:
+```
+http GET localhost:8000/api/credit_cards 'Cookie:token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTUwMTc3NDMyMiwiZXhwIjoxNTA0MzY2MzIyfQ.dFKb2MUAJsNwQ8WG3unUB3SfZXuOEMz1MnKh-64KuFg;'
+```
+
+**NOTE:** if this does not work for you, ensure that you are using data from the claim to take action within a route. In addition, make sure you have copied the token from the response correctly (you will need to copy everything from 'token' until the semi-colon (';').
+
